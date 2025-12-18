@@ -33,7 +33,8 @@ CREATE TABLE coin_history (
   coin_id integer NOT NULL,
   value decimal NOT NULL,
   value_change decimal NOT NULL,
-  supply integer NOT NULL
+  supply integer NOT NULL,
+  log_time timestamp NOT NULL
 );
 
 CREATE TABLE transactions (
@@ -42,5 +43,5 @@ CREATE TABLE transactions (
   coin_id integer NOT NULL,
   amount integer NOT NULL,
   price decimal NOT NULL,
-  trans_time timestamp NOT NULL
+  log_time timestamp NOT NULL
 );
