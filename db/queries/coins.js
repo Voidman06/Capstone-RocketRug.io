@@ -1,8 +1,6 @@
 import db from "#db/client";
 
-export async function createToken(id, name, photoUrl) {
-  const timestamp = new Date().toISOString();
-
+export async function createCoin(id, name, photoUrl) {
   const sql = `
     INSERT INTO coins
         (creator_id, name, photo_url, value, value_change, volatility_lvl, liquidity, supply, rugpulled, created_time)
@@ -73,6 +71,19 @@ export async function getCoinTransactions(id) {
   return log;
 }
 
+export async function updateCoinPhoto(id, photoUrl) {
+  const sql = `
+    UPDATE coins
+    SET photo_url = $2
+    WHERE id = $1
+    RETURNING *;
+    `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, photoUrl]);
+  return update;
+}
+
 // setup update functions for coin attributes
 export async function updateCoinValue(id, value) {
   const sql = `
@@ -123,6 +134,19 @@ export async function updateCoinSupply(id, supply) {
   const {
     rows: [update],
   } = await db.query(sql, [id, supply]);
+  return update;
+}
+
+export async function updateCoinLiquidity(id, liquidity) {
+  const sql = `
+  UPDATE coins
+  SET liquidity = liquidity + $2
+  WHERE id = $1
+  RETURNING *;
+  `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, liquidity]);
   return update;
 }
 

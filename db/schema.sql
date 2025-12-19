@@ -41,6 +41,7 @@ CREATE TABLE transactions (
   id serial PRIMARY KEY,
   user_id integer NOT NULL,
   coin_id integer NOT NULL,
+  type text NOT NULL,
   amount integer NOT NULL,
   price decimal NOT NULL,
   log_time timestamp NOT NULL
