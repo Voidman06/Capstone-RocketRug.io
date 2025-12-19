@@ -7,12 +7,12 @@ export async function createToken(id, name, photoUrl) {
     INSERT INTO coins
         (creator_id, name, photo_url, value, value_change, volatility_lvl, liquidity, supply, rugpulled, created_time)
     VALUES
-        ($1, $2, $3, $5, $4, $4, $4, $6, $4, $7)
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, NOW())
     RETURNING *
   `;
   const {
     rows: [coin],
-  } = await db.query(sql, [id, name, photoUrl, 0, 1, 100, timestamp]);
+  } = await db.query(sql, [id, name, photoUrl, 0, 0, 0, 0, 100, false]);
   return coin;
 }
 
@@ -73,6 +73,7 @@ export async function getCoinTransactions(id) {
   return log;
 }
 
+// setup update functions for coin attributes
 export async function updateCoinValue(id, value) {
   const sql = `
     UPDATE coins
@@ -80,6 +81,77 @@ export async function updateCoinValue(id, value) {
     WHERE id = $1
     RETURNING *;
     `;
-  const { rows } = await db.query(sql, [id, value]);
-  return rows;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, value]);
+  return update;
+}
+
+export async function updateCoinValueChange(id, change) {
+  const sql = `
+    UPDATE coins
+    SET value_change = $2
+    WHERE id = $1
+    RETURNING *;
+    `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, change]);
+  return update;
+}
+
+export async function updateCoinVolatility(id, level) {
+  const sql = `
+    UPDATE coins
+    SET volatility_lvl = $2
+    WHERE id = $1
+    RETURNING *;
+    `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, level]);
+  return update;
+}
+
+export async function updateCoinSupply(id, supply) {
+  const sql = `
+    UPDATE coins
+    SET supply = supply + $2
+    WHERE id = $1
+    RETURNING *;
+    `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, supply]);
+  return update;
+}
+
+export async function updateCoinRugPulled(id, rugpulled) {
+  const sql = `
+    UPDATE coins
+    SET rugpulled = true
+    WHERE id = $1
+    RETURNING *;
+    `;
+  const {
+    rows: [update],
+  } = await db.query(sql, [id, rugpulled]);
+  return update;
+}
+
+export async function logCoinStats(id) {
+  const sql = `
+    INSERT INTO coin_history (coin_id, value, value_change, supply, log_time)
+    SELECT
+      id,
+      value,
+      value_change,
+      supply,
+      NOW()
+    FROM coins WHERE id = $1;
+    `;
+  const {
+    rows: [log],
+  } = await db.query(sql, [id]);
+  return log;
 }
