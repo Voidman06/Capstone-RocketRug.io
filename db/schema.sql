@@ -34,6 +34,7 @@ CREATE TABLE coin_history (
   value decimal NOT NULL,
   value_change decimal NOT NULL,
   supply integer NOT NULL,
+  bookmark boolean NOT NULL,
   log_time timestamp NOT NULL
 );
 

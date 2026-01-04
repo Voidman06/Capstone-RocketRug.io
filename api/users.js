@@ -9,6 +9,9 @@ import {
   getUserById,
   getUserTransactions,
 } from "#db/queries/users";
+
+import { getCoinsByUserId } from "#db/queries/coins";
+
 import requireBody from "#middleware/requireBody";
 import { createToken } from "#utils/jwt";
 
@@ -63,6 +66,18 @@ router.get("/:id/transactions", async (req, res) => {
   try {
     const transactions = await getUserTransactions(userId);
     return res.status(200).send(transactions);
+  } catch (error) {
+    console.error("Error: ", error);
+    return res.status(500).send("Internal server error.");
+  }
+});
+
+router.get("/:id/coins", async (req, res) => {
+  const userId = req.user.id;
+
+  try {
+    const coins = await getCoinsByUserId(userId);
+    return res.status(200).send(coins);
   } catch (error) {
     console.error("Error: ", error);
     return res.status(500).send("Internal server error.");

@@ -35,7 +35,7 @@ export async function getCoinById(id) {
   return coin;
 }
 
-export async function getCoinByUserId(id) {
+export async function getCoinsByUserId(id) {
   const sql = `
     SELECT *
     FROM coins
@@ -52,6 +52,34 @@ export async function getCoinHistory(id) {
     SELECT *
     FROM coin_history
     WHERE coin_id = $1
+    `;
+  const {
+    rows: [log],
+  } = await db.query(sql, [id]);
+  return log;
+}
+
+export async function getLastCoinLog(id) {
+  const sql = `
+    SELECT *
+    FROM coin_history
+    WHERE coin_id = $1
+    ORDER BY log_time DESC
+    LIMIT 1;
+    `;
+  const {
+    rows: [log],
+  } = await db.query(sql, [id]);
+  return log;
+}
+
+export async function getLastCoinBookmarkLog(id) {
+  const sql = `
+    SELECT *
+    FROM coin_history
+    WHERE coin_id = $1 AND bookmark = true
+    ORDER BY log_time DESC
+    LIMIT 1;
     `;
   const {
     rows: [log],
@@ -163,19 +191,21 @@ export async function updateCoinRugPulled(id, rugpulled) {
   return update;
 }
 
-export async function logCoinStats(id) {
+export async function logCoinStats(id, bookmark) {
   const sql = `
-    INSERT INTO coin_history (coin_id, value, value_change, supply, log_time)
+    INSERT INTO coin_history (coin_id, value, value_change, supply, bookmark, log_time)
     SELECT
       id,
       value,
       value_change,
       supply,
+      $2,
       NOW()
     FROM coins WHERE id = $1;
+    RETURNING *;
     `;
   const {
     rows: [log],
-  } = await db.query(sql, [id]);
+  } = await db.query(sql, [id, bookmark]);
   return log;
 }
