@@ -31,10 +31,16 @@ router
     try {
       const { name, photoUrl } = req.body;
       const userId = req.user.id;
+
+      const userWallet = req.user.wallet;
+      if (userWallet < 25)
+        return res.status(400).send("Insufficient funds to create a new coin.");
+
       const coin = await createCoin(userId, name, photoUrl);
       await logCoinStats(coin.id, true);
       addUserCoinCount(userId);
-      res.status(201).send(coin);
+      updateUserWallet(userId, -25); //creation fee
+      return res.status(201).send(coin);
     } catch (error) {
       console.error("Error: ", error);
       return res.status(500).send("Internal server error.");
@@ -113,9 +119,10 @@ router
     const coinId = req.coin.id;
     const userId = req.user.id;
     const { amount } = req.body;
+    const amountNum = Number(amount);
 
     try {
-      buyCoins(userId, coinId, amount);
+      await buyCoins(userId, coinId, amountNum);
       return res.status(200).send("Transaction successful!");
     } catch (error) {
       console.error("Error: ", error);
@@ -129,9 +136,10 @@ router
     const coinId = req.coin.id;
     const userId = req.user.id;
     const { amount } = req.body;
+    const amountNum = Number(amount);
 
     try {
-      sellCoins(userId, coinId, amount);
+      sellCoins(userId, coinId, amountNum);
       return res.status(200).send("Transaction successful!");
     } catch (error) {
       console.error("Error: ", error);

@@ -10,7 +10,7 @@ export async function createCoin(id, name, photoUrl) {
   `;
   const {
     rows: [coin],
-  } = await db.query(sql, [id, name, photoUrl, 0, 0, 1, 0, 100, false]);
+  } = await db.query(sql, [id, name, photoUrl, 1, 0, 1, 100, 100, false]);
   return coin;
 }
 
@@ -194,7 +194,7 @@ export async function updateCoinLiquidity(id, liquidity) {
 export async function updateCoinRugPulled(id, rugpulled) {
   const sql = `
     UPDATE coins
-    SET rugpulled = true
+    SET rugpulled = $2
     WHERE id = $1
     RETURNING *;
     `;
@@ -215,7 +215,7 @@ export async function logCoinStats(id, bookmark) {
       supply,
       $2,
       NOW()
-    FROM coins WHERE id = $1;
+    FROM coins WHERE id = $1
     RETURNING *;
     `;
   const {
