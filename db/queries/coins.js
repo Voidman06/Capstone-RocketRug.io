@@ -24,7 +24,7 @@ export async function getCoins() {
   return rows;
 }
 
-export async function getRugpulledCoins() {
+export async function getRugPulledCoins() {
   const sql = `
     SELECT *
     FROM coins
@@ -150,6 +150,7 @@ export async function updateCoinValueChange(id, change) {
   return update;
 }
 
+// level variable is ranged 0 - 2
 export async function updateCoinVolatility(id, level) {
   const sql = `
     UPDATE coins
@@ -189,6 +190,7 @@ export async function updateCoinLiquidity(id, liquidity) {
   return update;
 }
 
+// rugpulled variable is a boolean
 export async function updateCoinRugPulled(id, rugpulled) {
   const sql = `
     UPDATE coins
@@ -202,6 +204,7 @@ export async function updateCoinRugPulled(id, rugpulled) {
   return update;
 }
 
+// bookmark variable is a boolean
 export async function logCoinStats(id, bookmark) {
   const sql = `
     INSERT INTO coin_history (coin_id, value, value_change, supply, bookmark, log_time)

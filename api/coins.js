@@ -10,7 +10,7 @@ import {
   getCoinTransactions,
   updateCoinRugPulled,
   updateCoinValue,
-  updateCoinLiquidity,
+  logCoinStats,
 } from "#db/queries/coins";
 
 import {
@@ -18,6 +18,8 @@ import {
   addUserCoinCount,
   addUserRugPullCount,
 } from "#db/queries/users";
+
+import { buyCoins, sellCoins } from "#db/queries/combined";
 
 import requireBody from "#middleware/requireBody";
 import requireUser from "#middleware/requireUser";
@@ -30,6 +32,7 @@ router
       const { name, photoUrl } = req.body;
       const userId = req.user.id;
       const coin = await createCoin(userId, name, photoUrl);
+      await logCoinStats(coin.id, true);
       addUserCoinCount(userId);
       res.status(201).send(coin);
     } catch (error) {
@@ -93,7 +96,7 @@ router.patch("/:id/rugpull", requireOwner, async (req, res) => {
   const coinLiquidity = req.coin.liquidity;
 
   try {
-    updateCoinRugPulled(coinId);
+    updateCoinRugPulled(coinId, true);
     updateCoinValue(coinId, -coinValue);
     updateUserWallet(ownerId, coinLiquidity);
     addUserRugPullCount(ownerId);
@@ -103,6 +106,38 @@ router.patch("/:id/rugpull", requireOwner, async (req, res) => {
     return res.status(500).send("Internal server error.");
   }
 });
+
+router
+  .route("/:id/buy")
+  .post(requireBody(["amount"]), requireUser, async (req, res) => {
+    const coinId = req.coin.id;
+    const userId = req.user.id;
+    const { amount } = req.body;
+
+    try {
+      buyCoins(userId, coinId, amount);
+      return res.status(200).send("Transaction successful!");
+    } catch (error) {
+      console.error("Error: ", error);
+      return res.status(500).send("Internal server error.");
+    }
+  });
+
+router
+  .route("/:id/sell")
+  .post(requireBody(["amount"]), requireUser, async (req, res) => {
+    const coinId = req.coin.id;
+    const userId = req.user.id;
+    const { amount } = req.body;
+
+    try {
+      sellCoins(userId, coinId, amount);
+      return res.status(200).send("Transaction successful!");
+    } catch (error) {
+      console.error("Error: ", error);
+      return res.status(500).send("Internal server error.");
+    }
+  });
 
 // Optional
 router.patch("/:id/mint", requireOwner, async (req, res) => {
