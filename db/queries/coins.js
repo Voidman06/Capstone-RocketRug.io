@@ -10,7 +10,7 @@ export async function createCoin(id, name, photoUrl) {
   `;
   const {
     rows: [coin],
-  } = await db.query(sql, [id, name, photoUrl, 0, 0, 0, 0, 100, false]);
+  } = await db.query(sql, [id, name, photoUrl, 0, 0, 1, 0, 100, false]);
   return coin;
 }
 
@@ -18,6 +18,17 @@ export async function getCoins() {
   const sql = `
     SELECT *
     FROM coins
+    WHERE rugpulled = false
+    `;
+  const { rows } = await db.query(sql);
+  return rows;
+}
+
+export async function getRugpulledCoins() {
+  const sql = `
+    SELECT *
+    FROM coins
+    WHERE rugpulled = true
     `;
   const { rows } = await db.query(sql);
   return rows;
@@ -116,10 +127,10 @@ export async function updateCoinPhoto(id, photoUrl) {
 export async function updateCoinValue(id, value) {
   const sql = `
     UPDATE coins
-    SET value = value + $2
+    SET value = GREATEST(value + $2, 0)
     WHERE id = $1
     RETURNING *;
-    `;
+  `;
   const {
     rows: [update],
   } = await db.query(sql, [id, value]);
@@ -155,7 +166,7 @@ export async function updateCoinVolatility(id, level) {
 export async function updateCoinSupply(id, supply) {
   const sql = `
     UPDATE coins
-    SET supply = supply + $2
+    SET supply = GREATEST(supply + $2, 0)
     WHERE id = $1
     RETURNING *;
     `;
@@ -168,7 +179,7 @@ export async function updateCoinSupply(id, supply) {
 export async function updateCoinLiquidity(id, liquidity) {
   const sql = `
   UPDATE coins
-  SET liquidity = liquidity + $2
+  SET liquidity = GREATEST(liquidity + $2, 0)
   WHERE id = $1
   RETURNING *;
   `;

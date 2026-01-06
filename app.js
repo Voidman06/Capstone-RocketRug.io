@@ -3,6 +3,7 @@ const app = express();
 export default app;
 
 import usersRouter from "#api/users";
+import coinsRouter from "#api/coins";
 import getUserFromToken from "#middleware/getUserFromToken";
 import handlePostgresErrors from "#middleware/handlePostgresErrors";
 import cors from "cors";
@@ -20,6 +21,7 @@ app.use(getUserFromToken);
 app.get("/", (req, res) => res.send("RocketRug says invest!"));
 
 app.use("/users", usersRouter);
+app.use("/coins", coinsRouter);
 
 app.use(handlePostgresErrors);
 app.use((err, req, res, next) => {

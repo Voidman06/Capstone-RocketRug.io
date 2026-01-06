@@ -53,9 +53,3 @@ export async function sellCoins(user_id, coin_id, amount) {
   //adds process tax to creator
   updateUserWallet(coinOwner, tax);
 }
-
-export async function rugPullCoin(coin_id) {
-  const coin = await getCoinById(coin_id);
-  const coinValue = coin.value;
-  const coinOwner = coin.creator_id;
-}

@@ -13,7 +13,11 @@ import {
   updateCoinLiquidity,
 } from "#db/queries/coins";
 
-import { updateUserWallet } from "#db/queries/users";
+import {
+  updateUserWallet,
+  addUserCoinCount,
+  addUserRugPullCount,
+} from "#db/queries/users";
 
 import requireBody from "#middleware/requireBody";
 import requireUser from "#middleware/requireUser";
@@ -26,6 +30,7 @@ router
       const { name, photoUrl } = req.body;
       const userId = req.user.id;
       const coin = await createCoin(userId, name, photoUrl);
+      addUserCoinCount(userId);
       res.status(201).send(coin);
     } catch (error) {
       console.error("Error: ", error);
@@ -91,6 +96,8 @@ router.patch("/:id/rugpull", requireOwner, async (req, res) => {
     updateCoinRugPulled(coinId);
     updateCoinValue(coinId, -coinValue);
     updateUserWallet(ownerId, coinLiquidity);
+    addUserRugPullCount(ownerId);
+    res.status(200).send("Coin has been rugpulled.");
   } catch (error) {
     console.error("Error: ", error);
     return res.status(500).send("Internal server error.");
