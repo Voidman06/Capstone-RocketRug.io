@@ -125,7 +125,20 @@ router
       await buyCoins(userId, coinId, amountNum);
       return res.status(200).send("Transaction successful!");
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error:", error.message);
+
+      if (error.message === "Insufficient funds") {
+        return res.status(400).send(error.message);
+      }
+
+      if (error.message === "Invalid amount") {
+        return res.status(400).send(error.message);
+      }
+
+      if (error.message === "Coin unavailable") {
+        return res.status(404).send(error.message);
+      }
+
       return res.status(500).send("Internal server error.");
     }
   });
@@ -142,16 +155,25 @@ router
       sellCoins(userId, coinId, amountNum);
       return res.status(200).send("Transaction successful!");
     } catch (error) {
-      console.error("Error: ", error);
+      console.error("Error:", error.message);
+
+      if (error.message === "Invalid amount") {
+        return res.status(400).send(error.message);
+      }
+
+      if (error.message === "Coin unavailable") {
+        return res.status(404).send(error.message);
+      }
+
       return res.status(500).send("Internal server error.");
     }
   });
 
 // Optional
-router.patch("/:id/mint", requireOwner, async (req, res) => {
-  return res.send("To be worked on");
-});
+// router.patch("/:id/mint", requireOwner, async (req, res) => {
+//   return res.send("To be worked on");
+// });
 
-router.patch("/:id/burn", requireOwner, async (req, res) => {
-  return res.send("To be worked on");
-});
+// router.patch("/:id/burn", requireOwner, async (req, res) => {
+//   return res.send("To be worked on");
+// });

@@ -23,13 +23,17 @@ export async function buyCoins(user_id, coin_id, amount) {
   const tradeValue = coin.value * amt;
   const tax = tradeValue * 0.1;
 
-  const priceDelta = coin.value * 0.05; // +5%
-  const liquidityDelta = tradeValue * 0.25; // +25%
+  const volatilityFactor =
+    Number(coin.volatility_lvl) + (Math.random() * 0.1 - 0.05);
+
+  const priceDelta = coin.value * volatilityFactor;
+  const liquidityDelta = tradeValue * 0.25;
 
   await updateUserWallet(user_id, -(tradeValue + tax));
   await updateUserWallet(coin.creator_id, tax);
 
   await updateCoinValue(coin_id, priceDelta);
+  await updateCoinValueChange(coin_id, priceDelta);
   await updateCoinLiquidity(coin_id, liquidityDelta);
 
   await logTransaction(user_id, coin_id, "buy", amt, tradeValue + tax);
@@ -46,13 +50,17 @@ export async function sellCoins(user_id, coin_id, amount) {
   const tradeValue = coin.value * amt;
   const tax = tradeValue * 0.1;
 
-  const priceDelta = -(coin.value * 0.05); // −5%
-  const liquidityDelta = -(tradeValue * 0.25); // −25%
+  const volatilityFactor =
+    Number(coin.volatility_lvl) + (Math.random() * 0.1 - 0.05);
+
+  const priceDelta = -(coin.value * volatilityFactor);
+  const liquidityDelta = -(tradeValue * 0.25);
 
   await updateUserWallet(user_id, tradeValue - tax);
   await updateUserWallet(coin.creator_id, tax);
 
   await updateCoinValue(coin_id, priceDelta);
+  await updateCoinValueChange(coin_id, priceDelta);
   await updateCoinLiquidity(coin_id, liquidityDelta);
 
   await logTransaction(user_id, coin_id, "sell", amt, tradeValue - tax);
