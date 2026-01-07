@@ -41,6 +41,10 @@ router.get("/", async (req, res) => {
   res.status(200).send(users);
 });
 
+router.get("/me", requireUser, (req, res) => {
+  res.send(req.user);
+});
+
 router.param("id", async (req, res, next, id) => {
   const userId = Number(id);
   if (isNaN(userId)) return res.status(400).send("Invalid user id.");
