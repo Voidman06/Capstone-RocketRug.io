@@ -13,6 +13,7 @@ import {
 import { getCoinsByUserId } from "#db/queries/coins";
 
 import requireBody from "#middleware/requireBody";
+import requireUser from "#middleware/requireUser";
 import { createToken } from "#utils/jwt";
 
 router
@@ -41,7 +42,7 @@ router.get("/", async (req, res) => {
   res.status(200).send(users);
 });
 
-router.get("/me", requireUser, (req, res) => {
+router.route("/me").get(requireUser, (req, res) => {
   res.send(req.user);
 });
 

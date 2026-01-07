@@ -1,12 +1,13 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
-import { getCoin, buyCoin, sellCoin, getUserById } from "../api/api";
+import { getCoinById, buyCoin, sellCoin, getUserById } from "../api/api";
 
 export default function CoinDetails() {
   const { id } = useParams();
   const { token } = useAuth();
   const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
 
   const [coin, setCoin] = useState(null);
   const [owner, setOwner] = useState(null);
@@ -14,7 +15,7 @@ export default function CoinDetails() {
   useEffect(() => {
     async function fetchCoinAndOwner() {
       try {
-        const coinData = await getCoin(id);
+        const coinData = await getCoinById(id);
         if (!response.ok) {
           throw new Error("Failed to fetch coin");
         }

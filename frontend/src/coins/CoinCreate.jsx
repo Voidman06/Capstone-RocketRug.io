@@ -1,6 +1,6 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { createCoin } from "#db/queries/coins";
+import { createCoin } from "../api/api";
 
 export default function CoinCreate() {
   const [user, setUser] = useState(null);
@@ -23,8 +23,8 @@ export default function CoinCreate() {
 
         const data = await res.json();
         setUser(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        setError(error.message);
       } finally {
         setLoading(false);
       }
