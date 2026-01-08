@@ -15,13 +15,8 @@ export default function CoinDetails() {
   useEffect(() => {
     async function fetchCoinAndOwner() {
       try {
-        const coinData = await getCoinById(id);
-        if (!response.ok) {
-          throw new Error("Failed to fetch coin");
-        }
-
-        const result = await response.json();
-        setCoin(result);
+        const coinData = await getCoinById(Number(id));
+        setCoin(coinData);
 
         const ownerData = await getUserById(coinData.creator_id);
         setOwner(ownerData);
@@ -33,9 +28,9 @@ export default function CoinDetails() {
     }
 
     fetchCoinAndOwner();
-  }, []);
+  }, [id]);
 
-  if (loading) {
+  if (loading || !coin || !owner) {
     return <p>Loading...</p>;
   }
 
@@ -45,15 +40,17 @@ export default function CoinDetails() {
 
   return (
     <div className="page">
-      <h1>{coin.name}</h1>
-
       <section>
+        <h1>{coin.name}</h1>
+        <img
+          src={coin.photo_url}
+          alt={coin.name}
+          width="130"
+          height="130"
+        ></img>
         <h2>Made by: {owner.username}</h2>
       </section>
-
-      <section>
-        <pre>{JSON.stringify(coin, null, 2)}</pre>
-      </section>
+      <section></section>
     </div>
   );
 }
