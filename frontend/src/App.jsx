@@ -6,6 +6,7 @@ import Home from "./Home";
 import About from "./About";
 import Error404 from "./Error404";
 import CoinList from "./coins/CoinList";
+import CoinPage from "./coins/CoinPage";
 import CoinDetails from "./coins/CoinDetails";
 import CoinCreate from "./coins/CoinCreate";
 
@@ -14,7 +15,7 @@ export default function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="/coins" element={<CoinList />} />
+        <Route path="/coins" element={<CoinPage />} />
         <Route path="/coins/:id" element={<CoinDetails />} />
         <Route path="/coins/create" element={<CoinCreate />} />
         <Route path="/register" element={<Register />} />

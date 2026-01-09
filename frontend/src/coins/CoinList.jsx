@@ -15,7 +15,7 @@ function CoinItem({ coin }) {
   return (
     <li className="coinItem">
       <Link to={`/coins/${coin.id}`}>{coin.name}</Link>
-      <img src={coin.photoUrl} alt={coin.name} width="45" height="45" />
+      <img src={coin.photo_url} alt={coin.name} width="45" height="45" />
       <p>Made by {coin.name}</p>
     </li>
   );
