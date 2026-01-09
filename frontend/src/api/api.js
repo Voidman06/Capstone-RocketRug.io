@@ -8,17 +8,12 @@ export async function getCoins() {
       "Content-Type": "application/json",
     },
   });
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
+
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch coin");
+    throw Error(data.message || "Failed to fetch coins");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function getCoinById(id) {
@@ -29,16 +24,12 @@ export async function getCoinById(id) {
     },
   });
   let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
+
   if (!response.ok) {
     throw Error(data.message || "Failed to fetch coin");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function createCoin(token, id) {
@@ -50,17 +41,11 @@ export async function createCoin(token, id) {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
     throw Error(data.message || "Failed to create coin");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function buyCoin(token, id) {
@@ -72,17 +57,11 @@ export async function buyCoin(token, id) {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
     throw Error(data.message || "Failed to buy coin");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function sellCoin(token, id) {
@@ -94,17 +73,11 @@ export async function sellCoin(token, id) {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
     throw Error(data.message || "Failed to sell coin");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function rugPullCoin(token, id) {
@@ -116,17 +89,11 @@ export async function rugPullCoin(token, id) {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
-    throw Error(data.message || "Failed to post");
+    throw Error(data.message || "Failed to rugpull coin");
   }
-  return data;
+
+  return response.json();
 }
 
 // users
@@ -138,17 +105,11 @@ export async function getUsers() {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch");
+    throw Error(data.message || "Failed to fetch users");
   }
-  return data;
+
+  return response.json();
 }
 
 export async function getUserById(id) {
@@ -159,15 +120,9 @@ export async function getUserById(id) {
     },
   });
 
-  let data;
-  try {
-    const text = await response.json();
-    data = text ? JSON.parse(text) : {};
-  } catch (error) {
-    data = {};
-  }
   if (!response.ok) {
     throw Error(data.message || "Failed to fetch user");
   }
-  return data;
+
+  return response.json();
 }

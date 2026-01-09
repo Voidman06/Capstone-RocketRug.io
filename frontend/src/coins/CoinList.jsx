@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { getCoins } from "../api/api";
 
-export default function BookList({ coins, syncCoins }) {
+export default function CoinList({ coins = [] }) {
+  if (!Array.isArray(coins)) {
+    console.log("coins prop:", coins, Array.isArray(coins));
+    return <p>Invalid coin data</p>;
+  }
+
   if (!coins.length) {
     return <p>No coins available.</p>;
   }
@@ -10,11 +13,12 @@ export default function BookList({ coins, syncCoins }) {
   return (
     <ul>
       {coins.map((coin) => (
-        <CoinItem key={coin.id} coin={coin} syncCoins={syncCoins} />
+        <CoinItem key={coin.id} coin={coin} />
       ))}
     </ul>
   );
 }
+
 function CoinItem({ coin }) {
   return (
     <li className="coinItem">
