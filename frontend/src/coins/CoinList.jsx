@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { getCoins } from "../api/api";
 
 export default function BookList({ coins, syncCoins }) {
+  if (!coins.length) {
+    return <p>No coins available.</p>;
+  }
+
   return (
     <ul>
       {coins.map((coin) => (
@@ -16,7 +20,6 @@ function CoinItem({ coin }) {
     <li className="coinItem">
       <Link to={`/coins/${coin.id}`}>{coin.name}</Link>
       <img src={coin.photo_url} alt={coin.name} width="45" height="45" />
-      <p>Made by {coin.name}</p>
     </li>
   );
 }
