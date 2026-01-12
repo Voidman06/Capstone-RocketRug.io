@@ -5,7 +5,7 @@ export default function About() {
       <p>
         RugRocket.io is a parody cryptocurrency simulator created to highlight
         the dark side of the market. Users begin with $100 in virtual funds and
-        can either invest in crypto coins or make their own.
+        can either invest in crypto coins or make their own with a $25 deposit.
       </p>
       <p>
         Creators of a token are granted an admin panel that grants them coin

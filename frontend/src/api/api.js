@@ -10,7 +10,7 @@ export async function getCoins() {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch coins");
+    throw Error("Failed to fetch coins");
   }
 
   return response.json();
@@ -23,10 +23,9 @@ export async function getCoinById(id) {
       "Content-Type": "application/json",
     },
   });
-  let data;
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch coin");
+    throw Error("Failed to fetch coin");
   }
 
   return response.json();
@@ -42,13 +41,13 @@ export async function createCoin(token, id) {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to create coin");
+    throw Error("Failed to create coin");
   }
 
   return response.json();
 }
 
-export async function buyCoin(token, id) {
+export async function buyCoin(amount) {
   const response = await fetch(API + `/coins/${id}/buy`, {
     method: "POST",
     headers: {
@@ -58,13 +57,13 @@ export async function buyCoin(token, id) {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to buy coin");
+    throw Error("Failed to buy coin");
   }
 
   return response.json();
 }
 
-export async function sellCoin(token, id) {
+export async function sellCoin(amount) {
   const response = await fetch(API + `/coins/${id}/sell`, {
     method: "POST",
     headers: {
@@ -74,7 +73,7 @@ export async function sellCoin(token, id) {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to sell coin");
+    throw Error("Failed to sell coin");
   }
 
   return response.json();
@@ -90,7 +89,7 @@ export async function rugPullCoin(token, id) {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to rugpull coin");
+    throw Error("Failed to rugpull coin");
   }
 
   return response.json();
@@ -106,7 +105,7 @@ export async function getUsers() {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch users");
+    throw Error("Failed to fetch users");
   }
 
   return response.json();
@@ -121,7 +120,23 @@ export async function getUserById(id) {
   });
 
   if (!response.ok) {
-    throw Error(data.message || "Failed to fetch user");
+    throw Error("Failed to fetch user");
+  }
+
+  return response.json();
+}
+
+export async function getAccount(token) {
+  const response = await fetch(API + "/users/me", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+
+  if (!response.ok) {
+    throw Error("Failed to fetch account");
   }
 
   return response.json();

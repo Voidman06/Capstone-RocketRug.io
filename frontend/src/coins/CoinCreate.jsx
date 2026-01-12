@@ -1,37 +1,28 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { createCoin } from "../api/api";
+import { useAuth } from "../auth/AuthContext";
+import { createCoin, getAccount } from "../api/api";
 
 export default function CoinCreate() {
+  const { token } = useAuth();
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchUser() {
-      try {
-        const res = await fetch("/api/users/me");
-
-        if (res.status === 401) {
-          setUser(null);
-          return;
+    async function fetchAccount(token) {
+      if (token) {
+        try {
+          const userData = await getAccount(token);
+          setUser(userData);
+        } catch (error) {
+          setError(error.message);
         }
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch user");
-        }
-
-        const data = await res.json();
-        setUser(data);
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
       }
     }
 
-    fetchUser();
-  }, []);
+    fetchAccount(token);
+  }, [token]);
 
   if (!user) {
     return (

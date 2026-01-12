@@ -5,7 +5,6 @@ import Register from "./auth/Register";
 import Home from "./Home";
 import About from "./About";
 import Error404 from "./Error404";
-import CoinList from "./coins/CoinList";
 import CoinPage from "./coins/CoinPage";
 import CoinDetails from "./coins/CoinDetails";
 import CoinCreate from "./coins/CoinCreate";
