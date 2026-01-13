@@ -1,7 +1,7 @@
 import db from "#db/client";
 import { createUser } from "#db/queries/users";
 import { createCoin, logCoinStats } from "#db/queries/coins";
-
+console.log("🌱 Seeding database...");
 await db.connect();
 await seed();
 await db.end();
@@ -9,16 +9,8 @@ console.log("🌱 Database seeded.");
 
 async function seed() {
   //users
-  await createUser(
-    "BippityBoppity",
-    "bippityboppity@rocketrug.io",
-    "thi$1SApazsw@rd41sUre!"
-  );
-  await createUser(
-    "CryptoVictim",
-    "cryptovictim@rocketrug.io",
-    "thi$1SApazsw@rd41sUre!"
-  );
+  await createUser("BippityBoppity", "bippityboppity@rocketrug.io", "1234p@ss");
+  await createUser("CryptoVictim", "cryptovictim@rocketrug.io", "1234p@ss");
 
   //coins
   await createCoin(

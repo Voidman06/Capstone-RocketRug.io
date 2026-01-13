@@ -1,3 +1,4 @@
+console.log("BOOTSTRAP FILE IS RUNNING");
 import app from "#app";
 import db from "#db/client";
 

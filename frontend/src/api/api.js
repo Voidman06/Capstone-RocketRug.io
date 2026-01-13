@@ -31,52 +31,57 @@ export async function getCoinById(id) {
   return response.json();
 }
 
-export async function createCoin(token, id) {
-  const response = await fetch(API + `/coins/${id}/createcoin`, {
+export async function createCoin(token, name, photoUrl) {
+  const response = await fetch(API + `/coins/createcoin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+    body: JSON.stringify({ name, photoUrl }),
   });
 
   if (!response.ok) {
-    throw Error("Failed to create coin");
+    throw Error(response.message || "Failed to create coin");
   }
 
   return response.json();
 }
 
-export async function buyCoin(amount) {
+export async function buyCoin(token, amount, id) {
   const response = await fetch(API + `/coins/${id}/buy`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+    body: JSON.stringify({ amount }),
   });
 
   if (!response.ok) {
     throw Error("Failed to buy coin");
   }
 
-  return response.json();
+  const message = await response.text();
+  return message;
 }
 
-export async function sellCoin(amount) {
+export async function sellCoin(token, amount, id) {
   const response = await fetch(API + `/coins/${id}/sell`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+    body: JSON.stringify({ amount }),
   });
 
   if (!response.ok) {
     throw Error("Failed to sell coin");
   }
 
-  return response.json();
+  const message = await response.text();
+  return message;
 }
 
 export async function rugPullCoin(token, id) {
@@ -92,7 +97,8 @@ export async function rugPullCoin(token, id) {
     throw Error("Failed to rugpull coin");
   }
 
-  return response.json();
+  const message = await response.text();
+  return message;
 }
 
 // users

@@ -24,7 +24,7 @@ CREATE TABLE coins (
   volatility_lvl integer NOT NULL,
   liquidity decimal NOT NULL,
   supply integer NOT NULL,
-  rugpulled boolean NOT NULL,
+  rugpulled boolean NOT NULL DEFAULT false,
   created_time timestamp NOT NULL
 );
 

@@ -14,6 +14,7 @@ import { getCoinsByUserId } from "#db/queries/coins";
 
 import requireBody from "#middleware/requireBody";
 import requireUser from "#middleware/requireUser";
+import getUserFromToken from "#middleware/getUserFromToken";
 import { createToken } from "#utils/jwt";
 
 router
@@ -42,8 +43,10 @@ router.get("/", async (req, res) => {
   res.status(200).send(users);
 });
 
-router.route("/me").get(requireUser, (req, res) => {
-  res.send(req.user);
+router.route("/me").get(getUserFromToken, requireUser, async (req, res) => {
+  const user = req.user;
+  const userId = await getUserById(user.id);
+  res.send(userId);
 });
 
 router.param("id", async (req, res, next, id) => {
@@ -65,19 +68,24 @@ router.get("/:id", async (req, res) => {
   return res.status(200).send(req.user);
 });
 
-router.get("/:id/transactions", async (req, res) => {
-  const userId = req.user.id;
+router.get(
+  "/:id/transactions",
+  getUserFromToken,
+  requireUser,
+  async (req, res) => {
+    const userId = req.user.id;
 
-  try {
-    const transactions = await getUserTransactions(userId);
-    return res.status(200).send(transactions);
-  } catch (error) {
-    console.error("Error: ", error);
-    return res.status(500).send("Internal server error.");
+    try {
+      const transactions = await getUserTransactions(userId);
+      return res.status(200).send(transactions);
+    } catch (error) {
+      console.error("Error: ", error);
+      return res.status(500).send("Internal server error.");
+    }
   }
-});
+);
 
-router.get("/:id/coins", async (req, res) => {
+router.get("/:id/coins", getUserFromToken, requireUser, async (req, res) => {
   const userId = req.user.id;
 
   try {

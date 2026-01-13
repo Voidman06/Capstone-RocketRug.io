@@ -34,14 +34,18 @@ export default function CoinCreate() {
     );
   }
 
-  const tryCreate = async (formData) => {
+  const tryCreate = async (e) => {
     setError(null);
     setLoading(true);
 
+    const formData = new FormData(e.target);
     const name = formData.get("name");
-    const photoUrl = formData.get("photo_url");
+    const photoUrl = formData.get("photoUrl");
     try {
-      await createCoin(name, photoUrl);
+      const response = await createCoin(token, name, photoUrl);
+      const coinId = response.id;
+      setLoading(false);
+      useNavigate("/coins/" + coinId);
     } catch (error) {
       setError(error.message);
     }
@@ -54,14 +58,14 @@ export default function CoinCreate() {
   return (
     <div className="page">
       <h1>Create a Coin</h1>
-      <form action={tryCreate}>
+      <form onSubmit={tryCreate}>
         <label>
           Coin Name
           <input type="text" name="name" required />
         </label>
         <label>
           Icon Image URL
-          <input type="text" name="photo_url" required />
+          <input type="text" name="photoUrl" required />
         </label>
         <button disabled={loading}>
           {loading ? "Creating..." : "Create ($25)"}
