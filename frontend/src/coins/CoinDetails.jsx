@@ -184,8 +184,8 @@ export default function CoinDetails() {
           height="130"
         ></img>
         <h3>Made by: {owner.username}</h3>
-        <h2>Value: {rugged ? "ERR" : `$${coin.value}`}</h2>
-        <h2>Value Change: {rugged ? "ERR" : `$${coin.value_change}`}</h2>
+        <h2 class>Value: {rugged ? "ERR" : `$${coin.value}`}</h2>
+        <h2>Value Change: {rugged ? "ERR" : `${coin.value_change}%`}</h2>
       </section>
       <section className="coin_panel">{panelCheck()}</section>
     </div>

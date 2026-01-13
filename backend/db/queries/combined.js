@@ -7,6 +7,10 @@ import {
 import { updateUserWallet, getUserById } from "#db/queries/users";
 import { logTransaction } from "#db/queries/transactions";
 
+function roundToTwo(num) {
+  return num.toFixed(2);
+}
+
 export async function buyCoins(user_id, coin_id, amount) {
   const amt = Number(amount);
   if (!Number.isFinite(amt) || amt <= 0) {
@@ -22,24 +26,29 @@ export async function buyCoins(user_id, coin_id, amount) {
 
   const tradeValue = coin.value * amt;
   const tax = tradeValue * 0.1;
-  const totalCost = tradeValue + tax;
+  const roundTax = roundToTwo(tax);
+  const totalCost = tradeValue + roundTax;
+  const roundedTotalCost = roundToTwo(totalCost);
 
-  if (user.wallet < totalCost) {
+  if (user.wallet < roundedTotalCost) {
     throw new Error("Insufficient funds");
   }
 
   const volatility = Math.max(0, Number(coin.volatility_lvl));
 
   const priceDelta = coin.value * volatility * 0.05;
-
+  const roundPriceDelta = roundToTwo(priceDelta);
+  const percentChange = (roundPriceDelta / coin.value) * 100;
+  const roundedPercentChange = roundToTwo(percentChange);
   const liquidityDelta = tradeValue * 0.25;
+  const roundLiquidityDelta = roundToTwo(liquidityDelta);
 
-  await updateUserWallet(user_id, -totalCost);
-  await updateUserWallet(coin.creator_id, tax);
+  await updateUserWallet(user_id, -roundedTotalCost);
+  await updateUserWallet(coin.creator_id, roundTax);
 
-  await updateCoinValue(coin_id, priceDelta);
-  await updateCoinValueChange(coin_id, priceDelta);
-  await updateCoinLiquidity(coin_id, liquidityDelta);
+  await updateCoinValue(coin_id, roundPriceDelta);
+  await updateCoinValueChange(coin_id, roundedPercentChange);
+  await updateCoinLiquidity(coin_id, roundLiquidityDelta);
 
   await logTransaction(user_id, coin_id, "buy", amt, totalCost);
 }
@@ -57,20 +66,25 @@ export async function sellCoins(user_id, coin_id, amount) {
 
   const tradeValue = coin.value * amt;
   const tax = tradeValue * 0.1;
-  const payout = tradeValue - tax;
+  const roundTax = roundToTwo(tax);
+  const payout = tradeValue - roundTax;
+  const roundedPayout = roundToTwo(payout);
 
   const volatility = Math.max(0, Number(coin.volatility_lvl));
 
   const priceDelta = -(coin.value * volatility * 0.05);
-
+  const roundPriceDelta = roundToTwo(priceDelta);
+  const percentChange = (roundPriceDelta / coin.value) * 100;
+  const roundedPercentChange = roundToTwo(percentChange);
   const liquidityDelta = -(tradeValue * 0.25);
+  const roundLiquidityDelta = roundToTwo(liquidityDelta);
 
-  await updateUserWallet(user_id, payout);
-  await updateUserWallet(coin.creator_id, tax);
+  await updateUserWallet(user_id, roundedPayout);
+  await updateUserWallet(coin.creator_id, roundTax);
 
-  await updateCoinValue(coin_id, priceDelta);
-  await updateCoinValueChange(coin_id, priceDelta);
-  await updateCoinLiquidity(coin_id, liquidityDelta);
+  await updateCoinValue(coin_id, roundPriceDelta);
+  await updateCoinValueChange(coin_id, roundedPercentChange);
+  await updateCoinLiquidity(coin_id, roundLiquidityDelta);
 
   await logTransaction(user_id, coin_id, "sell", amt, payout);
 }
