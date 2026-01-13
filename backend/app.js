@@ -2,14 +2,24 @@ import express from "express";
 const app = express();
 export default app;
 
+import cors from "cors";
+import morgan from "morgan";
+
 import usersRouter from "#api/users";
 import coinsRouter from "#api/coins";
 import getUserFromToken from "#middleware/getUserFromToken";
 import handlePostgresErrors from "#middleware/handlePostgresErrors";
-import cors from "cors";
-import morgan from "morgan";
 
-app.use(cors({ origin: process.env.CORS_ORIGIN ?? /localhost/ }));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || [
+      "http://localhost:5173",
+      "https://inquisitive-begonia-1ace58.netlify.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
 
 app.use(morgan("dev"));
 
