@@ -50,7 +50,7 @@ export async function buyCoins(user_id, coin_id, amount) {
   await updateCoinValueChange(coin_id, roundedPercentChange);
   await updateCoinLiquidity(coin_id, roundLiquidityDelta);
 
-  await logTransaction(user_id, coin_id, "buy", amt, totalCost);
+  await logTransaction(user_id, coin_id, "buy", amt, roundedTotalCost);
 }
 
 export async function sellCoins(user_id, coin_id, amount) {
@@ -86,5 +86,5 @@ export async function sellCoins(user_id, coin_id, amount) {
   await updateCoinValueChange(coin_id, roundedPercentChange);
   await updateCoinLiquidity(coin_id, roundLiquidityDelta);
 
-  await logTransaction(user_id, coin_id, "sell", amt, payout);
+  await logTransaction(user_id, coin_id, "sell", amt, roundedPayout);
 }
