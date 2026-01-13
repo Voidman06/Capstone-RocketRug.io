@@ -16,7 +16,7 @@ app.use(
       "http://localhost:5173",
       "https://inquisitive-begonia-1ace58.netlify.app",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
