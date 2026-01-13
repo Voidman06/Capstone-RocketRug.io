@@ -118,6 +118,7 @@ export default function CoinDetails() {
           <h3>
             Current Supply: {coin.supply} {coin.supply === 1 ? "coin" : "coins"}
           </h3>
+          <h3>Liquidity Pool: ${coin.liquidity}</h3>
           {/* <form action={mintCoinHandler}>
             <label>
               <input type="number" name="amount" min="100" />

@@ -13,7 +13,7 @@ export default function About() {
         coin's value and transfers the liquidity pool value in the creator's
         account wallet.
       </p>
-      <p>DISCLAIMERS</p>
+      <h3>DISCLAIMERS</h3>
       <p>
         This simulator is purely made for entertainment and educational purposes
         and is a completely safe environment for users to play with the

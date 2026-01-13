@@ -8,7 +8,7 @@
     "start": "node --env-file=.env server.js",
     "dev": "node --watch --env-file=.env server.js",
     "test": "vitest",
-    "db:schema": "psql postgresql://aiden:IhtIebf3s2LtDMf9dd1IsxvwK0p9pVuQ@dpg-d5ffm3shg0os73f9pnmg-a.virginia-postgres.render.com/capstone_rr_postgre -f db/schema.sql",
+    "db:schema": "psql postgres://aiden:billybobby@localhost:5432/rocketrug -f db/schema.sql",
     "db:seed": "node --env-file=.env db/seed.js",
     "db:reset": "npm run db:schema && npm run db:seed"
   },

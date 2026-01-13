@@ -136,10 +136,9 @@ router
       const coinId = req.params.id;
       const userId = req.user.id;
       const { amount } = req.body;
-      const amountNum = Number(amount);
 
       try {
-        await buyCoins(userId, coinId, amountNum);
+        await buyCoins(userId, coinId, Number(amount));
       } catch (error) {
         console.error("Error:", error.message);
 
@@ -156,6 +155,8 @@ router
         }
 
         return res.status(500).send("Internal server error.");
+      } finally {
+        return res.status(200).send("Transaction completed!");
       }
     }
   );
@@ -170,11 +171,9 @@ router
       const coinId = req.params.id;
       const userId = req.user.id;
       const { amount } = req.body;
-      const amountNum = Number(amount);
 
       try {
-        sellCoins(userId, coinId, amountNum);
-        return res.status(200).send("Transaction successful!");
+        await sellCoins(userId, coinId, Number(amount));
       } catch (error) {
         console.error("Error:", error.message);
 
@@ -187,6 +186,8 @@ router
         }
 
         return res.status(500).send("Internal server error.");
+      } finally {
+        return res.status(200).send("Transaction completed!");
       }
     }
   );
