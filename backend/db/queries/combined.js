@@ -8,7 +8,8 @@ import { updateUserWallet, getUserById } from "#db/queries/users";
 import { logTransaction } from "#db/queries/transactions";
 
 function roundToTwo(num) {
-  return num.toFixed(2);
+  const roundNum = Number(num.toFixed(2));
+  return roundNum;
 }
 
 export async function buyCoins(user_id, coin_id, amount) {

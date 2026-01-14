@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function CoinList({ coins = [] }) {
   return (
-    <ul>
+    <ul className="coin-list">
       {coins.map((coin) => (
         <CoinItem key={coin.id} coin={coin} />
       ))}
@@ -12,14 +12,17 @@ export default function CoinList({ coins = [] }) {
 
 function CoinItem({ coin }) {
   return (
-    <li className="coinItem">
-      <Link to={`/coins/${coin.id}`}>
-        <img src={coin.photo_url} alt={coin.name} width="45" height="45" />
+    <Link to={`/coins/${coin.id}`}>
+      <li className="coin-item">
+        <img
+          className="coin-image"
+          src={coin.photo_url}
+          alt={coin.name}
+          width="75"
+          height="75"
+        />
         <p>{coin.name}</p>
-        <p>
-          ${coin.value} ${coin.value_change}
-        </p>
-      </Link>
-    </li>
+      </li>
+    </Link>
   );
 }

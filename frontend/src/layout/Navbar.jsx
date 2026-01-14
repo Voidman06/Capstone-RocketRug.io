@@ -27,25 +27,36 @@ export default function Navbar() {
   }, [token]);
 
   return (
-    <header id="navbar">
+    <header className="navbar">
       <NavLink id="brand" to="/">
+        <img
+          src="/rocket-2-svgrepo-com.svg"
+          alt="RocketRug.io Logo"
+          width="24"
+        />
         <p>RocketRug.io</p>
       </NavLink>
-      <NavLink to="/coins">Coins</NavLink>
-      <NavLink to="/about">About</NavLink>
-      <nav>
+      <nav id="user-links">
         {token && user ? (
           <>
+            <p>
+              <strong>Balance:</strong> ${user.wallet}
+            </p>
+            <NavLink to="/coins">Coins</NavLink>
+            <NavLink to="/about">About</NavLink>
             <NavLink to="/coins/create">Create Coin</NavLink>
-            <p>Balance: ${user.wallet}</p>
             <NavLink to="/account">Account</NavLink>
-            <button onClick={logout}>Log out</button>
+            <NavLink to="/login" onClick={logout}>
+              Log Out
+            </NavLink>
           </>
         ) : token ? (
-          <p>Balance: loading...</p>
+          <p>Loading...</p>
         ) : (
           <>
-            <NavLink to="/login">Log in</NavLink>,
+            <NavLink to="/coins">Coins</NavLink>
+            <NavLink to="/about">About</NavLink>
+            <NavLink to="/login">Log in</NavLink>
             <NavLink to="/register">Register</NavLink>
           </>
         )}

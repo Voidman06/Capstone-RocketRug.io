@@ -26,7 +26,7 @@ export default function CoinCreate() {
 
   if (!user) {
     return (
-      <div className="page">
+      <div className="create-coin-page">
         <h1>Create a Coin</h1>
         <p>You must be logged in to create a coin.</p>
         <Link to="/login">Log in here.</Link>
@@ -43,9 +43,8 @@ export default function CoinCreate() {
     const photoUrl = formData.get("photoUrl");
     try {
       const response = await createCoin(token, name, photoUrl);
-      const coinId = response.id;
       setLoading(false);
-      useNavigate("/coins/" + coinId);
+      useNavigate("/coins");
     } catch (error) {
       setError(error.message);
     }
@@ -56,9 +55,9 @@ export default function CoinCreate() {
   }
 
   return (
-    <div className="page">
+    <div className="create-coin-page">
       <h1>Create a Coin</h1>
-      <form onSubmit={tryCreate}>
+      <form className="create-coin-form" onSubmit={tryCreate}>
         <label>
           Coin Name
           <input type="text" name="name" required />

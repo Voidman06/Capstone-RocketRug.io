@@ -131,7 +131,9 @@ export default function CoinDetails() {
             </label>
             <button>Burn</button>
           </form> */}
-          <button onClick={rugPullCoinHandler}>Rug Pull</button>
+          <button id="rugPullButton" onClick={rugPullCoinHandler}>
+            Rug Pull
+          </button>
         </section>
       );
     }
@@ -174,20 +176,39 @@ export default function CoinDetails() {
   }
 
   return (
-    <div className="coin_page">
-      <section>
+    <div className="coin-page">
+      <section className="coin-header">
         <h1>{coin.name}</h1>
         <img
+          className="coin-image"
           src={coin.photo_url}
           alt={coin.name}
           width="130"
           height="130"
         ></img>
         <h3>Made by: {owner.username}</h3>
-        <h2 class>Value: {rugged ? "ERR" : `$${coin.value}`}</h2>
-        <h2>Value Change: {rugged ? "ERR" : `${coin.value_change}%`}</h2>
       </section>
-      <section className="coin_panel">{panelCheck()}</section>
+      <section className="coin-values">
+        <h2 className={rugged ? "error-text" : ""}>
+          Value: {rugged ? "ERR" : `$${coin.value}`}
+        </h2>
+
+        <h2
+          className={
+            rugged
+              ? "error-text"
+              : coin.value_change < 0
+              ? "negative-text"
+              : coin.value_change > 0
+              ? "positive-text"
+              : "neutral-text"
+          }
+        >
+          {rugged ? "" : `(${coin.value_change}%)`}
+        </h2>
+        <h4>(Last 2 hours)</h4>
+      </section>
+      <section className="coin-panel">{panelCheck()}</section>
     </div>
   );
 }

@@ -59,7 +59,7 @@ export async function buyCoin(token, amount, id) {
   });
 
   if (!response.ok) {
-    throw Error("Failed to buy coin");
+    throw Error(response.message || "Failed to buy coin");
   }
 
   const message = await response.text();
@@ -77,7 +77,7 @@ export async function sellCoin(token, amount, id) {
   });
 
   if (!response.ok) {
-    throw Error("Failed to sell coin");
+    throw Error(response.message || "Failed to sell coin");
   }
 
   const message = await response.text();
