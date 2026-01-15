@@ -44,7 +44,8 @@ export default function CoinCreate() {
     try {
       const response = await createCoin(token, name, photoUrl);
       setLoading(false);
-      useNavigate("/coins");
+      const coinId = response.id;
+      useNavigate("/coins/" + coinId);
     } catch (error) {
       setError(error.message);
     }
