@@ -10,7 +10,7 @@ export async function createCoin(id, name, photoUrl) {
   `;
   const {
     rows: [coin],
-  } = await db.query(sql, [id, name, photoUrl, 1, 0, 1, 100, 100, false]);
+  } = await db.query(sql, [id, name, photoUrl, 1, 0, 1, 25, 100, false]);
   return coin;
 }
 
