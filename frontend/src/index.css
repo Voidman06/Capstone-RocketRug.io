@@ -53,18 +53,26 @@ form input {
 
 form button {
   padding: 0.5rem;
-  background-color: #f1ce59;
-  border: 2px solid #f1ce59;
+  background-color: #facb30;
+  border: 2px solid #facb30;
   border-radius: 4px;
   color: #293845;
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 1rem;
+
+  /* animation */
+  transition: all 0.2s;
 }
 
 form button:hover {
   border: 2px solid #293845;
+}
+
+form button:active {
+  border: 2px solid #facb30;
+  background-color: #facb30;
 }
 
 #rugPullButton {
@@ -78,10 +86,18 @@ form button:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 1rem;
   width: 100%;
+
+  /* animation */
+  transition: all 0.2s;
 }
 
 #rugPullButton:hover {
   border: 2px solid #ffffff;
+}
+
+#rugPullButton:active {
+  border: 2px solid #ffffff;
+  background-color: #ffffff;
 }
 
 .navbar {
@@ -92,7 +108,7 @@ form button:hover {
 
   border-radius: 0 0 8px 8px;
 
-  background-color: #f1ce59;
+  background-color: #facb30;
 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
@@ -126,6 +142,10 @@ form button:hover {
   font-weight: bold;
 }
 
+.navbar a:hover {
+  text-decoration: underline;
+}
+
 .about-page p {
   line-height: 1.6;
 }
@@ -150,10 +170,16 @@ form button:hover {
   border-radius: 8px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
   text-decoration: none;
+  transition: all 0.2s;
 }
 
 .home-page a:hover {
   border: 2px solid #293845;
+}
+
+.home-page a:active {
+  border: 2px solid #facb30;
+  background-color: #facb30;
 }
 
 .coin-list {
