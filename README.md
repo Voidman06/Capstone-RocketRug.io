@@ -10,7 +10,7 @@ Users can create an account and start with **$100 in virtual funds** to invest i
 
 If a coin’s creator (admin) visits their coin’s page, they will see a special **big red “RUG PULL” button**. Activating this button immediately drops the coin’s value to zero and transfers the coin’s liquidity pool into the creator’s account.
 
-The project is designed as a **parody and educational simulator**, not a realistic financial platform.
+The project is designed as a **parody and educational simulator**, not a realistic financial platform, nor is it 100% accurate.
 
 ---
 
@@ -34,20 +34,18 @@ The project is designed as a **parody and educational simulator**, not a realist
   - Coin icon
   - Current value
   - Volatility level / value change
-  - Graph showing value over time
   - A dynamic control panel:
     - **Investment controls** (buy / sell) for normal users
     - **Admin controls** (volatility adjustment, rug pull) for creators
-
-- A background script that updates coin volatility and value at set intervals (e.g., every 30 seconds)
 
 ---
 
 ## Stretch Goals
 
-- **Mint / Burn functionality**
+- **Coin Supply functionality**
 
-  - Allows creators to add or remove coin supply via the admin panel
+  - The supply of a coin can be limited to make the coin more valuable and rare
+  - Allows creators to add (mint) or remove (burn) coin supply via the admin panel
 
 - **User Dashboard**
 
